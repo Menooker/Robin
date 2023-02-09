@@ -1,0 +1,1 @@
+g++ -std=c++11 -g src/robin.cpp src/GdbJITSupport.cpp test/main.cpp -Isrc -o ./test/rb
