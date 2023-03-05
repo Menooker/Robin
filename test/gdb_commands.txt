@@ -1,0 +1,10 @@
+
+b mybreakpoint
+r
+disas /m st_sect
+disas /m end_sect
+b exit
+c
+disas /m st_sect
+disas /m end_sect
+q

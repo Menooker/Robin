@@ -40,6 +40,7 @@ typedef struct GDBJITentryobj
 extern "C" {
 #endif
 GDBJITentryobj* RobinGDBJITRegisterObject(void* elfObj, size_t objSize);
+void RobinGDBJITUnregisterObject(GDBJITentryobj* eo);
 
 #ifdef __cplusplus
 }

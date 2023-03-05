@@ -1,0 +1,17 @@
+name: C/C++ CI
+
+on: [push,pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-16.04
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: make
+      working-directory: ./
+      run: sh make_test.sh
+    - name: run
+      working-directory: ./
+      run: cat test/gdb_commands.txt | gdb test/rb 2>&1 | python3 test/check.py

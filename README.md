@@ -83,12 +83,16 @@ Now users can further use the `pELFObj` in GDB debug info or dumping to file.
 
 ## Registering debug info into GDB
 
-The APIs to use are:
+Once you generete the in-memory ELF file, you can register it in GDB debugger at the run time. After registering, your JIT'd code can be reconginized by GDB. The APIs to use are:
 
 ```c++
 GDBJITentryobj* RobinGDBJITRegisterObject(void* elfObj, size_t objSize);
-
+void RobinGDBJITUnregisterObject(GDBJITentryobj* eo);
 ```
+
+`RobinGDBJITRegisterObject` takes 2 arguments. The first is the in-memory ELF object pointer. The second is the size of the object. If you are using Robin to generate ELF debug info, you can pass the results of `getELFObjectView()` and `getELFObjectSize()` from `ELFWriter` to this function. `RobinGDBJITRegisterObject` returns the pointer to the GDB-internal structure that idendities the ELF object. You can later pass it to `RobinGDBJITUnregisterObject` to unload the ELF object from GDB.
+
+**Note** The `RobinGDBJIT*` functions are not thread-safe. They will modify the globally shared linked-list `__jit_debug_descriptor` as is required by the protocol of GDB. Consider to put calls to `RobinGDBJIT*` functions in a critical section to avoid multi-threading issues.
 
 You can pass `ELFWriter` generated object into this function:
 
@@ -97,11 +101,15 @@ You can pass `ELFWriter` generated object into this function:
 ...
   robin::ELFWriter writer{(uintptr_t)code, sizeof(shellcode), funcs, 2, 500, "test/example_src.c", lines, 4};
   writer.buildELFObject();
-  RobinGDBJITRegisterObject(writer.getELFObjectView(), writer.getELFObjectSize());
+  // save the "pobj" to unregister in GDB later
+  auto pobj = RobinGDBJITRegisterObject(writer.getELFObjectView(), writer.getELFObjectSize());
+  ...
+  // unregister the ELF file in GDB
+  RobinGDBJITUnregisterObject(pobj);
 ...
 ```
 
-A important note is that, if you need to link `GdbJITSupport.cpp` with other libraries that supports GDB symbol registration, you need to pass `-DROBIN_DONT_DEFINE_GDB_SYMBOLS=1` when building `GdbJITSupport.cpp` with C++ compilers.
+A important note is that, if you need to link `GdbJITSupport.cpp` with other libraries that supports GDB symbol registration (e.g. LLVM JIT engines), you need to pass `-DROBIN_DONT_DEFINE_GDB_SYMBOLS=1` when building `GdbJITSupport.cpp` with C++ compilers.
 
 ## How to build
 
@@ -110,7 +118,7 @@ This project requires C++11. You also need to provide the include path of `robin
 For example:
 
 ```
-g++ -std=c++11 -g src/robin.cpp src/GdbJITSupport.cpp test/main.cpp -Isrc -o ./test/rb
+g++ -std=c++11 -g /path/to/robin/src/robin.cpp /path/to/robin/src/GdbJITSupport.cpp test/main.cpp -I/path/to/robin/src -o ./test/rb
 ```
 
 You also need to consider the `-DROBIN_DONT_DEFINE_GDB_SYMBOLS=1` option (see the above section)

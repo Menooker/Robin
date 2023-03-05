@@ -55,7 +55,10 @@ uint8_t shellcode[] = {
     /*401251:*/ 0x90                    //nop
 };
 
-
+void __attribute__((noinline)) mybreakpoint()
+{
+    __asm__ __volatile__("");
+}
 
 int main()
 {
@@ -78,6 +81,7 @@ int main()
   // FILE *f = fopen("1.o", "w");
   // fwrite(writer.buf.buffer, writer.buf.getCurrentSectionDataAbsOffset(), 1, f);
   // fclose(f);
-  RobinGDBJITRegisterObject(writer.getELFObjectView(), writer.getELFObjectSize());
-  getchar();
+  auto ret = RobinGDBJITRegisterObject(writer.getELFObjectView(), writer.getELFObjectSize());
+  mybreakpoint();
+  RobinGDBJITUnregisterObject(ret);
 }

@@ -1,0 +1,75 @@
+
+Breakpoint 1, mybreakpoint () at test/main.cpp:61
+61	}
+(gdb) Dump of assembler code for function st_sect:
+7	    int a=c+1;
+   0x00007ffff7ff6042 <+0>:	push   %rbp
+   0x00007ffff7ff6043 <+1>:	mov    %rsp,%rbp
+   0x00007ffff7ff6046 <+4>:	mov    %rdi,-0x8(%rbp)
+   0x00007ffff7ff604a <+8>:	mov    %esi,-0xc(%rbp)
+   0x00007ffff7ff604d <+11>:	mov    -0x8(%rbp),%rax
+
+8	    int b=a+2;
+   0x00007ffff7ff604e <+12>:	mov    -0x8(%rbp),%eax
+   0x00007ffff7ff6051 <+15>:	mov    0x8(%rax),%rax
+   0x00007ffff7ff6055 <+19>:	mov    %rax,%rdx
+   0x00007ffff7ff6058 <+22>:	mov    -0x8(%rbp),%rax
+   0x00007ffff7ff605c <+26>:	mov    (%rax),%rax
+   0x00007ffff7ff605f <+29>:	sub    %rax,%rdx
+   0x00007ffff7ff6062 <+32>:	mov    %rdx,%rax
+   0x00007ffff7ff6065 <+35>:	mov    %rax,%rcx
+   0x00007ffff7ff6068 <+38>:	mov    -0x8(%rbp),%rax
+   0x00007ffff7ff606c <+42>:	mov    -0xc(%rbp),%edx
+   0x00007ffff7ff606f <+45>:	movslq %edx,%rdx
+   0x00007ffff7ff6072 <+48>:	shl    $0x6,%rdx
+   0x00007ffff7ff6076 <+52>:	add    %rdx,%rax
+   0x00007ffff7ff6079 <+55>:	add    $0x70,%rax
+   0x00007ffff7ff607d <+59>:	mov    %rcx,(%rax)
+   0x00007ffff7ff6080 <+62>:	nop
+   0x00007ffff7ff6081 <+63>:	pop    %rbp
+   0x00007ffff7ff6082 <+64>:	retq   
+   0x00007ffff7ff6083 <+65>:	nop
+
+End of assembler dump.
+(gdb) Dump of assembler code for function end_sect:
+2	    int a=c+1;
+   0x00007ffff7ff6000 <+0>:	push   %rbp
+   0x00007ffff7ff6001 <+1>:	mov    %rsp,%rbp
+   0x00007ffff7ff6004 <+4>:	mov    %rdi,-0x8(%rbp)
+   0x00007ffff7ff6008 <+8>:	mov    %esi,-0xc(%rbp)
+   0x00007ffff7ff600b <+11>:	mov    -0x8(%rbp),%rax
+
+3	    int b=a+2;
+   0x00007ffff7ff600c <+12>:	mov    -0x8(%rbp),%eax
+   0x00007ffff7ff600f <+15>:	mov    0x8(%rax),%rax
+   0x00007ffff7ff6013 <+19>:	mov    %rax,%rdx
+   0x00007ffff7ff6016 <+22>:	mov    -0x8(%rbp),%rax
+   0x00007ffff7ff601a <+26>:	mov    (%rax),%rax
+   0x00007ffff7ff601d <+29>:	sub    %rax,%rdx
+   0x00007ffff7ff6020 <+32>:	mov    %rdx,%rax
+   0x00007ffff7ff6023 <+35>:	mov    %rax,%rcx
+   0x00007ffff7ff6026 <+38>:	mov    -0x8(%rbp),%rax
+   0x00007ffff7ff602a <+42>:	mov    -0xc(%rbp),%edx
+   0x00007ffff7ff602d <+45>:	movslq %edx,%rdx
+   0x00007ffff7ff6030 <+48>:	shl    $0x6,%rdx
+   0x00007ffff7ff6034 <+52>:	add    %rdx,%rax
+   0x00007ffff7ff6037 <+55>:	add    $0x70,%rax
+   0x00007ffff7ff603b <+59>:	mov    %rcx,(%rax)
+   0x00007ffff7ff603e <+62>:	nop
+   0x00007ffff7ff603f <+63>:	pop    %rbp
+   0x00007ffff7ff6040 <+64>:	retq   
+   0x00007ffff7ff6041 <+65>:	nop
+
+End of assembler dump.
+(gdb) Breakpoint 2 at 0x7ffff74af040: file exit.c, line 104.
+(gdb) Continuing.
+
+Breakpoint 2, __GI_exit (status=0) at exit.c:104
+104	exit.c: No such file or directory.
+(gdb) No symbol "st_sect" in current context.
+(gdb) No symbol "end_sect" in current context.
+(gdb) A debugging session is active.
+
+	Inferior 1 [process 643] will be killed.
+
+Quit anyway? (y or n) [answered Y; input not from terminal]

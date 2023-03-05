@@ -35,5 +35,23 @@ GDBJITentryobj* RobinGDBJITRegisterObject(void* elfObj, size_t objSize)
   __jit_debug_descriptor.relevant_entry = &eo->entry;
   __jit_debug_descriptor.action_flag = GDBJIT_REGISTER;
   __jit_debug_register_code();
+  return eo;
 }
+
+void RobinGDBJITUnregisterObject(GDBJITentryobj* eo)
+{
+  if (eo) {
+    if (eo->entry.prev_entry)
+      eo->entry.prev_entry->next_entry = eo->entry.next_entry;
+    else
+      __jit_debug_descriptor.first_entry = eo->entry.next_entry;
+    if (eo->entry.next_entry)
+      eo->entry.next_entry->prev_entry = eo->entry.prev_entry;
+    __jit_debug_descriptor.relevant_entry = &eo->entry;
+    __jit_debug_descriptor.action_flag = GDBJIT_UNREGISTER;
+    __jit_debug_register_code();
+    free(eo);
+  }
+}
+
 
