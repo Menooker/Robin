@@ -9,6 +9,10 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
+    - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: gdb
+          version: 1.0
     - name: make
       working-directory: ./
       run: sh make_test.sh
