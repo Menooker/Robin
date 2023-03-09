@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
+      with:
           packages: gdb
           version: 1.0
     - name: make
