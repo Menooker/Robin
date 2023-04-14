@@ -8,8 +8,6 @@
 #include "robin/GdbJITSupport.h"
 #include <new>
 
-
-
 /* Minimal list of sections for the in-memory ELF object. */
 enum
 {
@@ -115,6 +113,7 @@ namespace robin
       intptr_t curDiff = cur - buffer;
       intptr_t bufStartDiff = bufStart - buffer;
       buffer = (uint8_t *)realloc(buffer, bufferSize * 2);
+      bufferSize *= 2;
       cur = curDiff + buffer;
       bufStart = bufStartDiff + buffer;
     }
@@ -462,4 +461,3 @@ void RobinELFWriterDestory(RobinELFWriter *writer)
   using namespace robin;
   ((ELFWriter *)writer)->~ELFWriter();
 }
-

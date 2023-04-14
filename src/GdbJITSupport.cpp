@@ -10,14 +10,15 @@ GDBJITdesc __jit_debug_descriptor = {
 /* GDB sets a breakpoint at this function. */
 extern "C" void __attribute__((noinline)) __jit_debug_register_code()
 {
-    __asm__ __volatile__("");
+  __asm__ __volatile__("");
 };
 
 #else
 extern GDBJITdesc __jit_debug_descriptor;
+extern "C" void __jit_debug_register_code();
 #endif
 
-GDBJITentryobj* RobinGDBJITRegisterObject(void* elfObj, size_t objSize)
+GDBJITentryobj *RobinGDBJITRegisterObject(void *elfObj, size_t objSize)
 {
   /* Allocate memory for GDB JIT entry and ELF object. */
   size_t sz = (size_t)(sizeof(GDBJITentryobj) + objSize);
@@ -38,9 +39,10 @@ GDBJITentryobj* RobinGDBJITRegisterObject(void* elfObj, size_t objSize)
   return eo;
 }
 
-void RobinGDBJITUnregisterObject(GDBJITentryobj* eo)
+void RobinGDBJITUnregisterObject(GDBJITentryobj *eo)
 {
-  if (eo) {
+  if (eo)
+  {
     if (eo->entry.prev_entry)
       eo->entry.prev_entry->next_entry = eo->entry.next_entry;
     else
@@ -53,5 +55,3 @@ void RobinGDBJITUnregisterObject(GDBJITentryobj* eo)
     free(eo);
   }
 }
-
-

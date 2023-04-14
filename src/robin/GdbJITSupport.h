@@ -1,4 +1,4 @@
-#pragma
+#pragma once
 #include <stdint.h>
 #include <stddef.h>
 
@@ -37,10 +37,11 @@ typedef struct GDBJITentryobj
 } GDBJITentryobj;
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-GDBJITentryobj* RobinGDBJITRegisterObject(void* elfObj, size_t objSize);
-void RobinGDBJITUnregisterObject(GDBJITentryobj* eo);
+  GDBJITentryobj *RobinGDBJITRegisterObject(void *elfObj, size_t objSize);
+  void RobinGDBJITUnregisterObject(GDBJITentryobj *eo);
 
 #ifdef __cplusplus
 }
