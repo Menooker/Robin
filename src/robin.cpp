@@ -91,7 +91,8 @@ namespace robin
 
   ELFObjectBuffer::ELFObjectBuffer(size_t numSymbols, size_t bufferSize) : numSymbols(numSymbols), bufferSize(bufferSize)
   {
-    buffer = (uint8_t *)malloc(sizeof(GDBJITobj) + bufferSize);
+    this->bufferSize = bufferSize + sizeof(GDBJITobj) + numSymbols * sizeof(ELFsymbol);
+    buffer = (uint8_t *)malloc(this->bufferSize);
     cur = data();
     bufStart = cur;
     /* Fill in ELF header and clear structures. */
